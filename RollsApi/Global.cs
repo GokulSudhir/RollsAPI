@@ -1,0 +1,33 @@
+﻿global using Serilog;
+global using Serilog.Events;
+global using Dapper;
+global using Microsoft.EntityFrameworkCore;
+global using Npgsql;
+global using System.Data;
+global using System.Text;
+global using Microsoft.AspNetCore.Mvc;
+global using System.ComponentModel.DataAnnotations;
+global using System.ComponentModel.DataAnnotations.Schema;
+global using RollsApi.Data;
+//global using MimeKit;
+//global using MimeKit.Text;
+//global using MailKit.Net.Smtp;
+//global using MailKit.Security;
+global using Razor.Templating.Core;
+global using System.Security.Cryptography;
+global using Quartz;
+global using Quartz.Spi;
+global using Quartz.Impl;
+global using System.Collections.Specialized;
+global using System.Linq;
+global using Microsoft.AspNetCore.Mvc.Filters;
+
+global using RollsApi.Extensions;
+global using RollsApi.Models;
+global using RollsApi.ViewModels;
+global using RollsApi.Interfaces;
+global using RollsApi.Repositories;
+
+global using System.Diagnostics;
+//global using RollsApi.Email;
+global using Newtonsoft.Json;
