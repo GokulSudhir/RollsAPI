@@ -5,23 +5,22 @@ namespace RollsApi.Controllers
 {
     [ApiController]
     [TypeFilter(typeof(TokenCheck))]
-
-    public class DepartmentsController : Controller
+    public class DesignationController : Controller
     {
-        private readonly IDepartmentsRepo _departmentsRepo;
+        private readonly IDesignationRepo _designationRepo;
 
-        public DepartmentsController(IDepartmentsRepo departmentsRepo)
+        public DesignationController(IDesignationRepo designationRepo)
         {
-            _departmentsRepo = departmentsRepo;
+            _designationRepo = designationRepo;
         }
 
         [HttpGet]
-        [Route("departments/all")]
-        public async Task<JsonResult> GetDepartmentsAsync()
+        [Route("designation/all")]
+        public async Task<JsonResult> GetDesignation()
         {
             var status = 401;
             var title = "Not Found";
-            IList<Departments> dataObj = await _departmentsRepo.GetDepartmentsAsync();
+            IList<Designation> dataObj = await _designationRepo.GetDesignationsAsync();
             if (dataObj.Count > 0)
             {
                 status = 200;
@@ -38,12 +37,34 @@ namespace RollsApi.Controllers
         }
 
         [HttpPost]
-        [Route("departments/name/exists")]
-        public async Task<JsonResult> DepartmentNameExistsAsync([FromBody] IsExistsVM requestObj)
+        [Route("designation/add")]
+        public async Task<JsonResult> DesignationAdd([FromBody] DesignationAddEditVM dataObj)
+        {
+            var status = 402;
+            var title = "Add Error";
+            long result = await _designationRepo.DesignationAddAsync(dataObj);
+            if (result > 0)
+            {
+                status = 200;
+                title = "OK";
+            }
+
+            var jsonObj = new
+            {
+                status = status,
+                title = title,
+                dataObj = result
+            };
+            return Json(jsonObj);
+        }
+
+        [HttpPost]
+        [Route("designation/name/exists")]
+        public async Task<JsonResult> DesignationNameExists([FromBody] IsExistsVM requestObj)
         {
             var status = 401;
             var title = "Not Found";
-            Departments dataObj = await _departmentsRepo.DepartmentNameExistsAsync(requestObj);
+            Designation dataObj = await _designationRepo.DesignationNameExistsAsync(requestObj);
 
             if (dataObj != null)
             {
@@ -61,34 +82,12 @@ namespace RollsApi.Controllers
         }
 
         [HttpPost]
-        [Route("departments/add")]
-        public async Task<JsonResult> DepartmentAddAsync([FromBody] DepartmentsAddEditVM dataObj)
-        {
-            var status = 402;
-            var title = "Add Error";
-            long result = await _departmentsRepo.DepartmentAddAsync(dataObj);
-            if (result > 0)
-            {
-                status = 200;
-                title = "OK";
-            }
-
-            var jsonObj = new
-            {
-                status = status,
-                title = title,
-                dataObj = result
-            };
-            return Json(jsonObj);
-        }
-
-        [HttpPost]
-        [Route("departments/delete")]
-        public async Task<JsonResult> DepartmentDeleteAsync([FromBody] DepartmentDeleteVM dataObj)
+        [Route("designation/delete")]
+        public async Task<JsonResult> DesignationDelete([FromBody] DesignationDeleteVM dataObj)
         {
             var status = 402;
             var title = "Delete Error";
-            long result = await _departmentsRepo.DepartmentDeleteAsync(dataObj);
+            long result = await _designationRepo.DesignationDeleteAsync(dataObj);
             if (result > 0)
             {
                 status = 200;
@@ -105,12 +104,12 @@ namespace RollsApi.Controllers
         }
 
         [HttpGet]
-        [Route("departments/deleted/all")]
-        public async Task<JsonResult> GetDeletedDepartments()
+        [Route("designation/deleted/all")]
+        public async Task<JsonResult> GetDeletedDesignations()
         {
             var status = 401;
             var title = "Not Found";
-            IList<Departments> dataObj = await _departmentsRepo.GetDeletedDepartmentsAsync();
+            IList<Designation> dataObj = await _designationRepo.GetDeletedDesignationsAsync();
             if (dataObj.Count > 0)
             {
                 status = 200;
@@ -127,12 +126,12 @@ namespace RollsApi.Controllers
         }
 
         [HttpPost]
-        [Route("departments/restore")]
-        public async Task<JsonResult> RestoreAsync([FromBody] DepartmentDeleteVM dataObj)
+        [Route("designation/restore")]
+        public async Task<JsonResult> RestoreAsync([FromBody] DesignationDeleteVM dataObj)
         {
             var status = 402;
             var title = "Restore Error";
-            long result = await _departmentsRepo.DepartmentRestoreAsync(dataObj);
+            long result = await _designationRepo.DesignationRestoreAsync(dataObj);
             if (result > 0)
             {
                 status = 200;
@@ -149,34 +148,34 @@ namespace RollsApi.Controllers
         }
 
         [HttpPost]
-        [Route("department/permanent/delete")]
-        public async Task<JsonResult> BankPermanentDeleteAsync([FromBody] DepartmentDeleteVM dataObj)
-		{
-			var status = 402;
-			var title = "Permanent Delete Error";
-			long result = await _departmentsRepo.DepartmentPermanentDeleteAsync(dataObj);
-			if (result > 0)
-			{
-				status = 200;
-				title = "OK";
-			}
+        [Route("designation/permanent/delete")]
+        public async Task<JsonResult> DesignationPermanentDeleteAsync([FromBody] DesignationDeleteVM dataObj)
+        {
+            var status = 402;
+            var title = "Permanent Delete Error";
+            long result = await _designationRepo.DesignationPermanentDeleteAsync(dataObj);
+            if (result > 0)
+            {
+                status = 200;
+                title = "OK";
+            }
 
-			var jsonObj = new
-			{
-				status = status,
-				title = title,
-				dataObj = result
-			};
-			return Json(jsonObj);
-		}
+            var jsonObj = new
+            {
+                status = status,
+                title = title,
+                dataObj = result
+            };
+            return Json(jsonObj);
+        }
 
         [HttpGet]
-        [Route("departments/dropdown")]
-        public async Task<JsonResult> DepartmentDropDown()
+        [Route("designation/dropdown")]
+        public async Task<JsonResult> DesignationDropDown()
         {
             var status = 401;
             var title = "Not Found";
-            IList<DepartmentDropDown> dataObj = await _departmentsRepo.DepartmentDropDownAsync();
+            IList<DesignationDropDown> dataObj = await _designationRepo.DesignationDropDownAsync();
             if (dataObj.Count > 0)
             {
                 status = 200;

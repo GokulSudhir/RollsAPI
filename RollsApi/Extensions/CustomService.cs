@@ -15,6 +15,8 @@
       services.AddSingleton<IBankRepo, BankRepo>();
       services.AddSingleton<IDepartmentRepo, DepartmentRepo>();
       services.AddSingleton<IDepartmentsRepo, DepartmentsRepo>();
+      services.AddSingleton<IDesignationRepo, DesignationRepo>();
+      services.AddSingleton<IEmployeeRepo, EmployeeRepo>();
       return services;
     }
   }
