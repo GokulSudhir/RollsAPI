@@ -15,11 +15,9 @@ namespace RollsApi.Repositories
         {
             long data = 0;
 
-            //add
-            StringBuilder q = new StringBuilder();
-            q.Append("insert into employees (first_name, middle_name, last_name, email_id, mobile, record_status, department_id, designation_id) ");
-            q.Append("values(@a,@b,@c,@d,@e,@f,@g,@h) ");
-            q.Append(" returning employee_id");
+            var query = @"insert into employees (first_name, middle_name, last_name, email_id, mobile, record_status, department_id, designation_id)
+                          values(@a,@b,@c,@d,@e,@f,@g,@h)
+                          returning employee_id";
 
             var p = new DynamicParameters();
 
@@ -55,7 +53,7 @@ namespace RollsApi.Repositories
                     {
                         if (dataObj.employee_id is null)
                         {
-                            long r = await connection.QuerySingleAsync<long>(q.ToString(), p);
+                            long r = await connection.QuerySingleAsync<long>(query, p);
                             data = r;
                         }
                         else
